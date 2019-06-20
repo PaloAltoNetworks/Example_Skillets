@@ -1,0 +1,27 @@
+name: workflow_example_01
+# label used for menu selection
+label: Simple Workflow Example
+
+description: |
+  This skillet demonstrates a simple workflow consisting of 3 steps.
+
+type: workflow
+
+# Labels allow grouping and type specific options and are generally only used in advanced cases
+labels:
+  collection:
+    - Example Skillets
+
+# variables define the things an operator may customize in this skillet. Things like DNS servers, NTP addresses, etc
+# may be customized for each deployment. Each variable will be rendered as a form field in the panhandler application
+variables:
+
+
+# Snippets is an ordered list of configuration xml fragments that will be pushed to the PAN-OS NGFW. The xpath
+# determines where in the configuration hierarchy the xml fragment will be set. 'file' indicates the name of the file
+# to load and parse. Jinja2 style variables will be variable interpolated using the values of the 'variables' defined
+# in the 'variables' section.
+snippets:
+  - name: generate_api_key
+  - name: get_system_info
+  - name: captured_values_example
