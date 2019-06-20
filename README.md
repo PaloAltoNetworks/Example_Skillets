@@ -3,7 +3,7 @@
 A skillet is just a collection of templates with a bit of meta-data that goes along with them. Meta-data can include things like a 
 name for the collection, a type that describes how the templates can be consumed, a description, optional labels, etc.
 
-All skillets can be consumed by [Panhandler](github.com/Paloaltonetworks/panhandler), 
+All skillets can be consumed by [Panhandler](https://github.com/Paloaltonetworks/panhandler), 
 though other apps may exist to consume specific skillets as well. 
 
 
@@ -17,7 +17,7 @@ of Skillets including:
 * Python
 * REST
 
-For more information, see the Panhandler [documentation](panhandler.readthedocs.io).
+For more information, see the Panhandler [documentation](https://panhandler.readthedocs.io).
 
 
 ## Disclaimer and Support Policy
