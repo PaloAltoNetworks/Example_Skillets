@@ -1,13 +1,10 @@
-name: hostname_change
-# label used for menu selection
-label: Hello World Example (Set hostname)
+name: azure_login
+label: Azure Login
 
 description: |
-  This skillet demonstrates a very basic Pan-OS configuration change. This allows the user to configure the
-  hostname on a Pan-OS NGFW
-
+  This skillet will log into Azure. You will be prompted to follow a link and enter a device-code in your browser.
 # type of skillet (panos or panorama or template or terraform)
-type: panos
+type: python3
 
 # more complex skillets may express a dependency on another skillet that should be loaded before this one.
 # For example, a set of skillets may build off of a single 'golden config' that contains shared configuration
@@ -17,22 +14,22 @@ extends:
 # Labels allow grouping and type specific options and are generally only used in advanced cases
 labels:
   collection:
-    - Example Skillets
-    - Configure
+    - Deploy
+    - Public Cloud
+    - Azure
 
 # variables define the things an operator may customize in this skillet. Things like DNS servers, NTP addresses, etc
 # may be customized for each deployment. Each variable will be rendered as a form field in the panhandler application
 variables:
-  - name: FW_NAME
-    description: Firewall hostname
-    default: panos-01
-    type_hint: text
+#  - name: api_key
+#    description: API Key
+#    default: abc123
+#    type_hint: text
 
-# Snippets is an ordered list of configuration xml fragments that will be pushed to the Pan-OS NGFW. The xpath
-# determines where in the configuration heirarchy the xml fragment will be set. 'file' indicates the name of the file
+# Snippets is an ordered list of configuration xml fragments that will be pushed to the PAN-OS NGFW. The xpath
+# determines where in the configuration hierarchy the xml fragment will be set. 'file' indicates the name of the file
 # to load and parse. Jinja2 style variables will be variable interpolated using the values of the 'variables' defined
 # in the 'variables' section.
 snippets:
-  - name: device_system
-    xpath: /config/devices/entry[@name='localhost.localdomain']/deviceconfig/system
-    file: device_system.xml
+  - name: script
+    file: azure_login.py
