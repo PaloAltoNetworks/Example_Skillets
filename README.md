@@ -1,14 +1,18 @@
 # Skillets
 
-Skillets are sharable units of automation tools and configurations. Skillets are most commonly used to
-share loadable configurations for PAN-OS devices. Skillets can be loaded using several tools including
-[Panhandler](github.com/Paloaltonetworks/panhandler). 
+A skillet is just a collection of templates with a bit of meta-data that goes along with them. Meta-data can include things like a 
+name for the collection, a type that describes how the templates can be consumed, a description, optional labels, etc.
+
+All skillets can be consumed by [Panhandler](github.com/Paloaltonetworks/panhandler), 
+though other apps may exist to consume specific skillets as well. 
+
 
 ## Skillet types
 
 Although most skillets consist of loadable PAN-OS configurations, Panhandler can also load additional types
 of Skillets including:
 
+* PAN-OS
 * Terraform
 * Python
 * REST
