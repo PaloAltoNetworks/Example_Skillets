@@ -19,17 +19,24 @@
 
 export PANHANDLER_IMAGE=paloaltonetworks/panhandler:{{ image_tag }}
 
-echo "Checking for updates"
+echo "Checking for updates ... (This may take some time while the image downloads)"
+echo " "
 docker pull $PANHANDLER_IMAGE | grep 'Image is up to date'
 
 if [ $? -eq 0 ];
  then
     echo "Panhandler:{{ image_tag }} is already up to date!"
+    echo " "
+    echo " "
+    echo " "
     exit 0;
 fi
 
 {%- if reset_repositories == "true" %}
 echo "Moving Panhandler data directory to backup"
+echo " "
+echo " "
+echo " "
 mv ~/.pan_cnc/panhandler ~/.pan_cnc/panhandler.backup
 mkdir ~/.pan_cnc/panhandler
 {% endif %}
@@ -38,17 +45,25 @@ export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
 
 if [ -z "$PANHANDLER_ID" ];
  then
-   echo "Panhandler:{{ image_tag }} is not currently running"
+    echo "Panhandler:{{ image_tag }} is not currently running"
+    echo " "
 else
     echo "Stopping Panhandler container"
+    echo " "
     docker stop $PANHANDLER_ID
 
     echo "Removing old Panhandler container"
+    echo " "
     docker rm -f $PANHANDLER_ID
 fi
 
 echo "Creating and running new Panhandler container"
+echo " "
 docker run -p {{ listen_port }}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
-
-
+echo " "
+echo " "
+echo " "
 echo "You may now use Panhandler by opening a web browser and browsing to http://localhost:{{ listen_port }}"
+echo " "
+echo " "
+echo " "
