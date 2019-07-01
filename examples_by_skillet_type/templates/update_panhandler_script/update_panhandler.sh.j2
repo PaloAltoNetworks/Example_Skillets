@@ -1,0 +1,42 @@
+#!/bin/bash
+
+########################################################################################################################
+#
+# Update Panhandler Tool
+#
+# This script should be copied to your host and run as a user that has privileges to manage docker containers
+#
+# Use a text editor to create the script file. Copy this content into the script
+# vi update_panhandler.sh
+#
+# make the script executable
+# chmod +x ./update_panhandler.sh
+#
+# Execute this script
+# ./update_panhandler.sh
+#
+########################################################################################################################
+
+{%- if reset_repositories %}
+echo "Moving Panhandler data directory to backup"
+mv ~/.pan_cnc/panhandler ~/.pan_cnc/panhandler.backup
+mkdir ~/.pan_cnc/panhandler
+{% endif %}
+
+export PANHANDLER_IMAGE=paloaltonetworks/panhandler:{{ image_tag }}
+export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
+
+echo "Stopping Panhandler container"
+docker stop $PANHANDLER_ID
+
+echo "Removing old Panhandler container"
+docker rm -f $PANHANDLER_ID
+
+echo "Pulling newer image"
+docker pull $PANHANDLER_IMAGE | grep 'Image is up to date'
+
+echo "Running new Panhandler container in the backup"
+docker run -p {{ listen_port }}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
+
+
+echo "You may now use Panhandler by opening a web browser and browsing to http://localhost:{{ listen_port }}"

@@ -1,0 +1,44 @@
+name: update_panhandler_container
+label: Update Panhandler Application
+
+description: |
+  This Skillet allows you to update the Panhandler application to the latest version.
+
+type: template
+
+labels:
+  collection:
+    - Example Skillets
+
+variables:
+  - name: image_tag
+    description: Version
+    default: latest
+    type_hint: dropdown
+    dd_list:
+      - key: Latest
+        value: latest
+      - key: Development
+        value: dev
+      - key: Beta
+        value: beta
+  - name: reset_repositories
+    description: Reset Repositories
+    default: false
+    type_hint: dropdown
+    dd_list:
+      - key: "true"
+        value: "True"
+      - key: "false"
+        value: False
+  - name: listen_port
+    description: Exposed Port
+    default: 8080
+    type_hint: number
+    attriutes:
+      min: 8000
+      max: 9000
+
+snippets:
+  - name: update_script
+    file: update_panhandler.sh.j2
