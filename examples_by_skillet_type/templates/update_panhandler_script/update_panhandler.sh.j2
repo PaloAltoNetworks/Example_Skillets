@@ -17,13 +17,23 @@
 #
 ########################################################################################################################
 
+export PANHANDLER_IMAGE=paloaltonetworks/panhandler:{{ image_tag }}
+
+echo "Checking for updates"
+docker pull $PANHANDLER_IMAGE | grep 'Image is up to date'
+
+if [ $? -eq 0 ];
+ then
+    echo "Panhandler:{{ image_tag }} is already up to date!"
+    exit 0;
+fi
+
 {%- if reset_repositories == "true" %}
 echo "Moving Panhandler data directory to backup"
 mv ~/.pan_cnc/panhandler ~/.pan_cnc/panhandler.backup
 mkdir ~/.pan_cnc/panhandler
 {% endif %}
 
-export PANHANDLER_IMAGE=paloaltonetworks/panhandler:{{ image_tag }}
 export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
 
 echo "Stopping Panhandler container"
@@ -31,9 +41,6 @@ docker stop $PANHANDLER_ID
 
 echo "Removing old Panhandler container"
 docker rm -f $PANHANDLER_ID
-
-echo "Pulling newer image"
-docker pull $PANHANDLER_IMAGE | grep 'Image is up to date'
 
 echo "Running new Panhandler container in the backup"
 docker run -p {{ listen_port }}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
