@@ -42,4 +42,4 @@ variables:
 snippets:
   - name: update_script
     file: update_panhandler.sh.j2
-    template_title: "Update Panhandler Tool"
+    template_title: "Panhandler Updater Tool"

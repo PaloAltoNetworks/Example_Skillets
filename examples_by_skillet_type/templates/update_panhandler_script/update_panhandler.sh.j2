@@ -36,13 +36,18 @@ mkdir ~/.pan_cnc/panhandler
 
 export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
 
-echo "Stopping Panhandler container"
-docker stop $PANHANDLER_ID
+if [ x$PANHANDLER_IDx == xx ];
+ then
+   echo "Panhandler:{{ image_tag }} is not currently running"
+else
+    echo "Stopping Panhandler container"
+    docker stop $PANHANDLER_ID
 
-echo "Removing old Panhandler container"
-docker rm -f $PANHANDLER_ID
+    echo "Removing old Panhandler container"
+    docker rm -f $PANHANDLER_ID
+fi
 
-echo "Running new Panhandler container in the backup"
+echo "Creating and running new Panhandler container"
 docker run -p {{ listen_port }}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
 
 
