@@ -36,7 +36,7 @@ mkdir ~/.pan_cnc/panhandler
 
 export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
 
-if [ x$PANHANDLER_IDx == xx ];
+if [ -z "$PANHANDLER_ID" ];
  then
    echo "Panhandler:{{ image_tag }} is not currently running"
 else
