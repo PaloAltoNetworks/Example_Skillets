@@ -24,7 +24,7 @@ variables:
         value: beta
   - name: reset_repositories
     description: Reset Repositories
-    default: false
+    default: "false"
     type_hint: dropdown
     dd_list:
       - key: "True"

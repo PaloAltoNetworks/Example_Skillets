@@ -17,7 +17,7 @@
 #
 ########################################################################################################################
 
-{%- if reset_repositories %}
+{%- if reset_repositories == "true" %}
 echo "Moving Panhandler data directory to backup"
 mv ~/.pan_cnc/panhandler ~/.pan_cnc/panhandler.backup
 mkdir ~/.pan_cnc/panhandler
