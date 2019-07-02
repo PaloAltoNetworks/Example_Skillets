@@ -17,7 +17,20 @@
 #
 ########################################################################################################################
 
-export PANHANDLER_IMAGE=paloaltonetworks/panhandler:{{ image_tag }}
+
+# set default values
+{%- if image_tag is defined %}
+DEFAULT_IMAGE_TAG={{ image_tag }}
+{% else %}
+DEFAULT_IMAGE_TAG=latest
+{% endif -%}
+{%- if listen_port is defined %}
+DEFAULT_PORT={{ listen_port }}
+{% else %}
+DEFAULT_PORT=8080
+{% endif -%}
+
+export PANHANDLER_IMAGE=paloaltonetworks/panhandler:${IMAGE_TAG}
 
 echo "Checking for updates ... (This may take some time while the image downloads)"
 echo " "
@@ -25,7 +38,7 @@ docker pull $PANHANDLER_IMAGE | grep 'Image is up to date'
 
 if [ $? -eq 0 ];
  then
-    echo "Panhandler:{{ image_tag }} is already up to date!"
+    echo "Panhandler:${IMAGE_TAG} is already up to date!"
     echo " "
     echo " "
     echo " "
@@ -45,7 +58,7 @@ export PANHANDLER_ID=$(docker ps | grep $PANHANDLER_IMAGE | awk '{ print $1 }')
 
 if [ -z "$PANHANDLER_ID" ];
  then
-    echo "Panhandler:{{ image_tag }} is not currently running"
+    echo "Panhandler:${IMAGE_TAG} is not currently running"
     echo " "
 else
     echo "Stopping Panhandler container"
@@ -59,11 +72,11 @@ fi
 
 echo "Creating and running new Panhandler container"
 echo " "
-docker run -p {{ listen_port }}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
+docker run -p ${DEFAULT_PORT}:80 -t -v $HOME:/root -d $PANHANDLER_IMAGE
 echo " "
 echo " "
 echo " "
-echo "You may now use Panhandler by opening a web browser and browsing to http://localhost:{{ listen_port }}"
+echo "You may now use Panhandler by opening a web browser and browsing to http://localhost:${DEFAULT_PORT}"
 echo " "
 echo " "
 echo " "
